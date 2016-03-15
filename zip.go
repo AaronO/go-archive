@@ -39,11 +39,13 @@ func (z *ZipIterator) iterateFile(file *zip.File, fn IteratorFunc) error {
 	}
 
 	// Call the iterator
-	fn(
+	if err := fn(
 		file.Name,
 		file.FileInfo(),
 		rc,
-	)
+	); err != nil {
+		return err
+	}
 
 	// Close reader
 	return rc.Close()

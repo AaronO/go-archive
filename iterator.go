@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-type IteratorFunc func(path string, info os.FileInfo, reader io.Reader)
+type IteratorFunc func(path string, info os.FileInfo, reader io.Reader) error
 
 type Iterator interface {
 	Iterate(IteratorFunc) error

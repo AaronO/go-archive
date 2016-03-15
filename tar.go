@@ -30,14 +30,16 @@ func (t *TarIterator) Iterate(fn IteratorFunc) error {
 			continue
 		}
 		// Handle this specifc file
-		t.iterateFile(header, fn)
+		if err := t.iterateFile(header, fn); err != nil {
+			return err
+		}
 	}
 
 	return nil
 }
 
-func (t *TarIterator) iterateFile(header *tar.Header, fn IteratorFunc) {
-	fn(
+func (t *TarIterator) iterateFile(header *tar.Header, fn IteratorFunc) error {
+	return fn(
 		header.Name,
 		header.FileInfo(),
 		t.reader,
